@@ -65,7 +65,7 @@ function NoteList({
                 type="text"
                 value={title}
                 onChange={(e) => {
-                  e.target.value;
+                  setTitle(e.target.value);
                 }}
               />
             </Form.Group>
