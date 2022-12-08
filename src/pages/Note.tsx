@@ -1,26 +1,25 @@
 import React from "react";
 import { Row, Col, Stack, Badge, Button } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useNote } from "../hooks/useNote";
 import ReactMarkdown from "react-markdown";
 
-const Note = () => {
+type NoteProps = {
+  onDelete: (id: string) => void;
+};
+
+const Note = ({ onDelete }: NoteProps) => {
   const note = useNote();
+
+  const navigate = useNavigate();
   return (
     <div>
-      <Row className="align-items-center mb-4">
+      <Row className="mb-4">
         <Col>
-          <Stack
-            gap={2}
-            className="align-items-center justify-content-center h-100"
-          >
+          <Stack gap={2} className=" h-100">
             <h2>{note.title}</h2>
             {note.tags.length > 0 && (
-              <Stack
-                gap={1}
-                direction="horizontal"
-                className="justify-content-center flex-wrap"
-              >
+              <Stack gap={1} direction="horizontal" className="flex-wrap">
                 {note.tags.map((tag) => (
                   <Badge className="text-truncate" key={tag.id}>
                     {tag.label}
@@ -35,7 +34,16 @@ const Note = () => {
             <Link to={`/${note.id}/edit`}>
               <Button variant="primary">Edit</Button>
             </Link>
-            <Button variant="outline-danger">Delete</Button>
+            <Button
+              onClick={() => {
+                alert("You Sure You want to delete?");
+                onDelete(note.id);
+                navigate("/");
+              }}
+              variant="outline-danger"
+            >
+              Delete
+            </Button>
             <Link to={".."}>
               <Button variant="outline-secondary">Back </Button>
             </Link>
